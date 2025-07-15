@@ -106,7 +106,7 @@ after all this have been ddone the next step is to start the server and run test
             npm test
 
 
-# Test 4: Frontend web application set up:
+# Task 4: Frontend web application set up:
 
 Creating a simple frontend web application that interacts with the backend api ensuring it has the basic features like product listing, user login and order placement:
 ![3](./img/3a.png)
@@ -238,3 +238,5 @@ Creating a simple frontend web application that interacts with the backend api e
                         alert(data.message);
                     });
                     }
+# Task 5: Continious integration workflow
+write a github action workflow for the backend and frontend that : install depenedencies, runs tests, build applications
