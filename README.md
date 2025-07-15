@@ -284,3 +284,60 @@ Creating a dockerfile for both the backend and frontend and modify the Github Ac
                     EXPOSE 80
 
                     CMD ["nginx", "-g", "daemon off;"]
+
+
+## modify  the workflow to build docker image:
+
+# for backend:
+
+                    name: Backend CI with Docker
+
+                    on:
+                    push:
+                        paths:
+                        - 'backend/**'
+                    pull_request:
+                        paths:
+                        - 'backend/**'
+
+                    jobs:
+                    build-backend:
+                        runs-on: ubuntu-latest
+
+                        steps:
+                        - name: Checkout Code
+                            uses: actions/checkout@v3
+
+                        - name: Set up Docker Buildx
+                            uses: docker/setup-buildx-action@v3
+
+                        - name: Build Docker Image
+                            run: docker build -t ecommerce-backend ./backend
+
+
+# for frontend:
+
+                name: Frontend CI with Docker
+
+                on:
+                push:
+                    paths:
+                    - 'frontend/**'
+                pull_request:
+                    paths:
+                    - 'frontend/**'
+
+                jobs:
+                build-frontend:
+                    runs-on: ubuntu-latest
+
+                    steps:
+                    - name: Checkout Code
+                        uses: actions/checkout@v3
+
+                    - name: Set up Docker Buildx
+                        uses: docker/setup-buildx-action@v3
+
+                    - name: Build Docker Image
+                        run: docker build -t ecommerce-frontend ./frontend
+
