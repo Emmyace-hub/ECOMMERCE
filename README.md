@@ -238,5 +238,49 @@ Creating a simple frontend web application that interacts with the backend api e
                         alert(data.message);
                     });
                     }
-# Task 5: Continious integration workflow
-write a github action workflow for the backend and frontend that : install depenedencies, runs tests, build applications
+# Task 5: Docker integration
+Creating a dockerfile for both the backend and frontend and modify the Github Actions workflows to build Docke images
+
+## for the backend:
+
+                    # backend/Dockerfile
+                    FROM node:18
+
+                    # Set working directory
+                    WORKDIR /app
+
+                    # Copy package files and install dependencies
+                    COPY package*.json ./
+                    RUN npm install
+
+                    # Copy the rest of the backend source code
+                    COPY . .
+
+                    # Expose backend port (adjust if not 3000)
+                    EXPOSE 3000
+
+                    # Start the backend server
+                    CMD ["node", "server.js"]
+
+                    
+## for the frontend:
+
+                    # frontend/Dockerfile
+
+                    # Build stage
+                    FROM node:18 AS build
+
+                    WORKDIR /app
+                    COPY package*.json ./
+                    RUN npm install
+                    COPY . .
+                    RUN npm run build
+
+                    # Production stage
+                    FROM nginx:alpine
+                    COPY --from=build /app/dist /usr/share/nginx/html
+
+                    # Expose default NGINX port
+                    EXPOSE 80
+
+                    CMD ["nginx", "-g", "daemon off;"]
