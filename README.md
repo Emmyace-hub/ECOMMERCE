@@ -88,4 +88,17 @@ Create initial workflows for CI—one for backend, one for frontend. where we th
 ![1](./img/1c.png)
 
 ## Task 3: Backend AP set up:
- in the api directory a simple Node.js applicatioj that handles basic e-commerce operations is set and implemented for unit test for the api
+ in the api directory a simple Node.js application with express that supports basic operations like listing products, adding a product to cart, and checking out. It also includes unit tests using Jest and Supertest.
+ ![2](./img/2a.png)
+ after which i run the following commands on my terminal
+
+            npm init -y
+            npm install express
+            npm install --save-dev jest supertest
+![2](./img/2b.png)
+![2](./img/2c.png)
+
+after all this have been ddone the next step is to start the server and run test using command:
+
+            npm start
+            npm test
