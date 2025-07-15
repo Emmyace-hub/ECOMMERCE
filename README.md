@@ -106,4 +106,133 @@ after all this have been ddone the next step is to start the server and run test
 
 # Test 4: Frontend web application set up:
 
-Creating a simple frontend web application that interacts with the backend api ensuring it has the basic features like product listing, user login and order placement
+Creating a simple frontend web application that interacts with the backend api ensuring it has the basic features like product listing, user login and order placement:
+![3](./img/3a.png)
+
+## product listing (index.html)
+
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                <meta charset="UTF-8">
+                <title>Product Listing</title>
+                <link rel="stylesheet" href="styles.css">
+                </head>
+                <body>
+                <h1>Products</h1>
+                <div id="products"></div>
+                <a href="cart.html">View Cart</a>
+
+                <script src="app.js"></script>
+                </body>
+                </html>
+
+## login.html
+
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                <meta charset="UTF-8">
+                <title>Login</title>
+                </head>
+                <body>
+                <h1>Login</h1>
+                <form id="loginForm">
+                    <input type="text" placeholder="Username" required />
+                    <input type="password" placeholder="Password" required />
+                    <button type="submit">Login</button>
+                </form>
+                <script>
+                    document.getElementById('loginForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    alert('Logged in (mock)');
+                    window.location.href = 'index.html';
+                    });
+                </script>
+                </body>
+                </html>
+
+
+## cart.html
+
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                <meta charset="UTF-8">
+                <title>Your Cart</title>
+                </head>
+                <body>
+                <h1>Cart</h1>
+                <div id="cart"></div>
+                <button id="checkoutBtn">Checkout</button>
+                <a href="index.html">Back to Products</a>
+
+                <script src="app.js"></script>
+                </body>
+                </html>
+
+
+## app.js (handles all js logic)
+
+                    const API_URL = 'http://localhost:3000/api';
+
+                    document.addEventListener('DOMContentLoaded', () => {
+                    if (document.getElementById('products')) {
+                        fetch(`${API_URL}/cart/products`)
+                        .then(res => res.json())
+                        .then(products => {
+                            const container = document.getElementById('products');
+                            products.forEach(p => {
+                            const div = document.createElement('div');
+                            div.className = 'product';
+                            div.innerHTML = `
+                                <h3>${p.name}</h3>
+                                <p>Price: $${p.price}</p>
+                                <button onclick="addToCart('${p.name}', 1)">Add to Cart</button>
+                            `;
+                            container.appendChild(div);
+                            });
+                        });
+                    }
+
+                    if (document.getElementById('cart')) {
+                        fetch(`${API_URL}/cart`)
+                        .then(res => res.json())
+                        .then(data => {
+                            const cart = data.cart;
+                            const container = document.getElementById('cart');
+                            if (cart.length === 0) {
+                            container.innerText = 'Cart is empty';
+                            } else {
+                            cart.forEach(item => {
+                                const div = document.createElement('div');
+                                div.innerText = `${item.product} (x${item.quantity})`;
+                                container.appendChild(div);
+                            });
+                            }
+                        });
+
+                        document.getElementById('checkoutBtn').addEventListener('click', () => {
+                        fetch(`${API_URL}/cart/checkout`, { method: 'POST' })
+                            .then(res => res.json())
+                            .then(data => {
+                            alert(data.message);
+                            location.reload();
+                            });
+                        });
+                    }
+                    });
+
+                    function addToCart(product, quantity) {
+                    fetch(`${API_URL}/cart/add`, {
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ product, quantity })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        alert(data.message);
+                    });
+                    }
