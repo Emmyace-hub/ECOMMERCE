@@ -102,3 +102,8 @@ after all this have been ddone the next step is to start the server and run test
 
             npm start
             npm test
+
+
+# Test 4: Frontend web application set up:
+
+Creating a simple frontend web application that interacts with the backend api ensuring it has the basic features like product listing, user login and order placement

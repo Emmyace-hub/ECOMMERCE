@@ -18,3 +18,15 @@ export const checkout = (req, res) => {
   cart = [];
   res.status(200).json({ message: `Checked out ${totalItems} item(s)` });
 };
+export const getProducts = (req, res) => {
+  const products = [
+    { id: 1, name: 'Laptop', price: 1200 },
+    { id: 2, name: 'Phone', price: 700 },
+    { id: 3, name: 'Headphones', price: 150 }
+  ];
+  res.status(200).json(products);
+};
+import { getProducts } from '../controllers/cartController.js';
+
+router.get('/products', getProducts);
+
