@@ -88,7 +88,9 @@ Create initial workflows for CI—one for backend, one for frontend. where we th
 ![1](./img/1c.png)
 
 ## Task 3: Backend AP set up:
+
  in the api directory a simple Node.js application with express that supports basic operations like listing products, adding a product to cart, and checking out. It also includes unit tests using Jest and Supertest.
+ the backend consist of app.js,cart.test.js,cartController.js,cartRoutes.js,package.json and server.js
  ![2](./img/2a.png)
  after which i run the following commands on my terminal
 
