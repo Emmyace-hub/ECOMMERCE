@@ -347,4 +347,5 @@ Creating a dockerfile for both the backend and frontend and modify the Github Ac
 Configure github actions to deply docker images to AWS using github secrets to securely store and access cloud credentials
 ![6](./img/d1.png)
 ![6](./img/d2.png)
-![]()
+![7](./img/bnd.png)
+![7](./img/7a.png)

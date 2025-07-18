@@ -4,6 +4,7 @@
   "description": "Create Repo: Name it ecommerce-platform, with two directories: api (backend) and webapp (frontend).\r ![1](./img/1.png)",
   "main": "index.js",
   "scripts": {
+    "start": "react-scripts start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,7 +20,10 @@
   },
   "homepage": "https://github.com/Emmyace-hub/ECOMMERCE#readme",
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-scripts": "^5.0.1"
   },
   "devDependencies": {
     "jest": "^30.0.4",
