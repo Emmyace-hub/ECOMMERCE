@@ -1,16 +1,21 @@
 let cart = [];
 
 export const getCart = (req, res) => {
-  res.status(200).json({ cart });
+  res.json({ cart });
 };
 
 export const addToCart = (req, res) => {
   const { product, quantity } = req.body;
   if (!product || !quantity) {
-    return res.status(400).json({ message: 'Missing product or quantity' });
+    return res.status(400).json({ error: 'Product and quantity are required' });
   }
-  cart.push({ product, quantity });
-  res.status(201).json({ message: 'Product added to cart' });
+  const existing = cart.find(item => item.product === product);
+  if (existing) {
+    existing.quantity += quantity;
+  } else {
+    cart.push({ product, quantity });
+  }
+  res.status(201).json({ cart });
 };
 
 export const checkout = (req, res) => {

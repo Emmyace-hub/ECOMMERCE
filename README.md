@@ -341,3 +341,7 @@ Creating a dockerfile for both the backend and frontend and modify the Github Ac
                     - name: Build Docker Image
                         run: docker build -t ecommerce-frontend ./frontend
 
+
+## Task 6: Deploy to AWS 
+
+Configure github actions to deply docker images to AWS using github secrets to securely store and access cloud credentials
