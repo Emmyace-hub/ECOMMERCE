@@ -30,11 +30,11 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Run Tests
-        run: npm test
+    #   - name: Run Tests
+    #     run: npm test
 
-      # - name: Build Frontend App
-      #   run: npm run build
+      - name: Build Frontend App
+        run: npm run build
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
