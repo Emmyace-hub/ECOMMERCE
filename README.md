@@ -238,9 +238,12 @@ Creating a simple frontend web application that interacts with the backend api e
                         alert(data.message);
                     });
                     }
+after applying this command we can see the application was successful
+![4](./img/fntwebp2.png)
+![4](./img/fntwebp.png)
 # Task 5: Docker integration
 Creating a dockerfile for both the backend and frontend and modify the Github Actions workflows to build Docke images
-
+![5](./img/bd.png)
 ## for the backend:
 
                     # backend/Dockerfile
@@ -262,7 +265,7 @@ Creating a dockerfile for both the backend and frontend and modify the Github Ac
                     # Start the backend server
                     CMD ["node", "server.js"]
 
-                    
+![4](./img/fd.png)                 
 ## for the frontend:
 
                     # frontend/Dockerfile
@@ -342,10 +345,77 @@ Creating a dockerfile for both the backend and frontend and modify the Github Ac
                         run: docker build -t ecommerce-frontend ./frontend
 
 
-## Task 6: Deploy to AWS 
+## Task 6: Deploy to AWS (cloud) using Github actions
 
-Configure github actions to deply docker images to AWS using github secrets to securely store and access cloud credentials
+Configure github actions to deploy docker images to AWS using github secrets to securely store and access cloud credentials
+
+# step1: was securing the cloud credentials and attaching it to my repository:
+![6](./img/sc.png)
+
+# step2: configure the docker image to deploy to cloud(aws)
+
+* for backend
+using the commands below to build the docker images
+
+            docker build -t ecommmercebackend .
+            docker ps
+            docker image
+
+
 ![6](./img/d1.png)
 ![6](./img/d2.png)
+after the docker image was successfuly build it the CD was configured to continiously deploy to the AWS successfully through github actions:
 ![7](./img/bnd.png)
+we can verify below on the AWS to show the image was succesfully deployed:
 ![7](./img/7a.png)
+
+* for front end
+after the docker image was successfuly build it the CD was configured to continiously deploy to the AWS successfully through github actions:
+![7](./img/fntebd0.1.png)
+we can verify below on the AWS to show the image was succesfully deployed:
+![7](./img/fc.png)
+
+
+## 7 Performance & Security
+
+### Add caching to speed up builds
+
+**GitHub Actions Example:**
+For Node.js projects, add a cache step before installing dependencies:
+
+
+            ```yaml
+                - name: Cache node modules
+                    uses: actions/cache@v4
+                    with:
+                    path: ~/.npm
+                    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                    restore-keys: |
+                        ${{ runner.os }}-node-
+```
+For Docker builds, use BuildKit inline cache:
+
+
+            ```yaml
+                - name: Build Docker Image with cache
+                    run: |
+                    docker build --build-arg BUILDKIT_INLINE_CACHE=1 --cache-from=type=registry,ref=myrepo/myimage:latest -t myrepo/myimage:latest .
+            ```
+
+### Secure secrets and sensitive data
+
+- **Use GitHub Secrets:** Store AWS keys, API tokens, and other sensitive data in GitHub repository secrets. Reference them in workflows as `${{ secrets.MY_SECRET }}`.
+- **Never commit secrets to your repository.**
+- **Use environment variables** for secrets in Docker and Node.js apps, not hardcoded values.
+- **Rotate secrets regularly** and remove unused ones.
+
+**Example (GitHub Actions):**
+
+            ```yaml
+                - name: Configure AWS Credentials
+                    uses: aws-actions/configure-aws-credentials@v2
+                    with:
+                    aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                    aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                    aws-region: ${{ env.AWS_REGION }}
+            ```
